@@ -2,6 +2,10 @@
 
 Terraform module example for provisioning Portainer on DigitalOcean running behind Nginx with LetsEncrypt.
 
+[![CircleCI](https://circleci.com/gh/thojkooi/terraform-digitalocean-portainer.svg?style=svg)](https://circleci.com/gh/thojkooi/terraform-digitalocean-portainer)
+
+---
+
 - [Goals](#goals)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
