@@ -1,0 +1,17 @@
+version: '3.2'
+services:
+    portainer:
+        image: portainer/portainer:${portainer_version}
+        command: ${portainer_parameters}
+        ports: ['80:9000']
+        environment:
+            VIRTUAL_HOST: ${domain}
+        volumes:
+        - type: bind
+          source: /var/run/docker.sock
+          target: /var/run/docker.sock
+          read_only: false
+        - type: bind
+          source: ${portainer_data_path}/portainer
+          target: /data
+          read_only: false

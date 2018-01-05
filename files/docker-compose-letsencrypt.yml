@@ -1,0 +1,81 @@
+version: '3.2'
+services:
+    proxy:
+       image: jwilder/nginx-proxy:alpine
+       container_name: nginx
+       restart: always
+       ports: ['80:80', '443:443']
+       labels:
+           com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: ''
+       volumes:
+       - type: bind
+         source: /var/run/docker.sock
+         target: /tmp/docker.sock
+         read_only: true
+       # LetsEncrypt volumes
+       - type: volume
+         source: ${portainer_data_path}/certificates
+         target: /etc/nginx/certs
+         read_only: true
+       - type: bind
+         source: nginx_conf_d
+         target: /etc/nginx/conf.d
+         read_only: false
+       - type: bind
+         source: nginx_vhost_d
+         target: /etc/nginx/vhost.d
+         read_only: false
+       - type: bind
+         source: letsencrypt_challenge_files
+         target: /usr/share/nginx/html
+         read_only: true
+
+    letsencrypt_companion:
+        image: jrcs/letsencrypt-nginx-proxy-companion:latest
+        restart: always
+        volumes:
+        - type: volume
+          source: ${portainer_data_path}/certificates
+          target: /etc/nginx/certs
+          read_only: false
+        - type: bind
+          source: nginx_vhost_d
+          target: /etc/nginx/vhost.d
+          read_only: false
+        - type: bind
+          source: nginx_conf_d
+          target: /etc/nginx/conf.d
+          read_only: false
+        - type: bind
+          source: letsencrypt_challenge_files
+          target: /usr/share/nginx/html
+          read_only: false
+        - type: bind
+          source: /var/run/docker.sock
+          target: /var/run/docker.sock
+          read_only: false
+
+    portainer:
+        image: portainer/portainer:${portainer_version}
+        command: ${portainer_parameters}
+        environment:
+            VIRTUAL_HOST: ${domain}
+            LETSENCRYPT_TEST: '${letsencrypt_test}'
+            LETSENCRYPT_HOST: ${domain}
+            LETSENCRYPT_EMAIL: ${letsencrypt_email}
+            LETSENCRYPT_KEYSIZE: ${letsencrypt_keysize}
+
+        volumes:
+        - type: bind
+          source: /var/run/docker.sock
+          target: /var/run/docker.sock
+          read_only: false
+        - type: bind
+          source: ${portainer_data_path}/portainer
+          target: /data
+          read_only: false
+
+volumes:
+    nginx_conf_d:
+    nginx_vhost_d:
+    letsencrypt_challenge_files:
