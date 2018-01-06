@@ -10,13 +10,15 @@ Note that this example using DigitalOcean to configure a DNS record. You may hav
 
 Configure the following variables (for example using `terraform.tfvars`):
 
-```
+```tf
 ssh_keys = [SSH_KEY_ID]
 domain = "mydomain.example"
 use_letsencrypt = "true"
 letsencrypt_test = "true"
 letsencrypt_email = "letsencrypt-email@mydomain.example"
 ```
+
+Replace the value of domain and the email address by your own values. Remember to set the ssh key ids correctly.
 
 After this, run the following commands:
 
