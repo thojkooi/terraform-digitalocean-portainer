@@ -5,7 +5,7 @@ variable "ssh_keys" {
 }
 
 variable "portainer_version" {
-  default     = "1.16.0"
+  default     = "1.16.1"
   description = "Version of Portainer to run"
 }
 
