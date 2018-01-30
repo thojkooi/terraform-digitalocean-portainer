@@ -50,7 +50,7 @@ variable "region" {
 
 variable "size" {
   description = "Droplet size"
-  default     = "512mb"
+  default     = "s-1vcpu-1gb"
 }
 
 variable "backups" {
