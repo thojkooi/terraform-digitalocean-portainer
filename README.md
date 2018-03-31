@@ -33,7 +33,7 @@ module "portainer" {
   source   = "github.com/thojkooi/terraform-digitalocean-portainer"
   do_token = "${var.do_token}"
 
-  size            = "512mb"
+  size            = "s-1vcpu-1gb"
   name            = "portainer"
   region          = "ams3"
   domain          = "example.com"
